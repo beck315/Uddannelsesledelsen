@@ -34,25 +34,371 @@
       color: #cbd5e1; /* slate-300 */
       border-bottom: 2px solid #94a3b8; /* slate-400 */
     }
+
+    /* Dropdown-menuen er skjult som standard */
+    nav .group > div {
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.2s ease;
+      pointer-events: none;
+    }
+
+    /* Dropdown åben */
+    nav .group.open > div {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
   </style>
 </head>
 <body class="bg-slate-900 text-slate-200 font-sans min-h-screen flex flex-col">
 
-  <header class="bg-slate-800/95 backdrop-blur-md sticky top-0 z-50 shadow-md">
-    <div class="max-w-6xl mx-auto px-6 py-5 flex items-center justify-between">
-      <h1 class="text-2xl font-semibold select-none text-slate-300">Politiskolen – Undervisningsmateriale</h1>
-      <nav class="hidden md:flex space-x-8 text-slate-400 font-medium tracking-wide">
-        <a href="#" data-page="straffeloven" class="hover:text-slate-300 transition active">Straffeloven</a>
-        <a href="#" data-page="retsplejeloven" class="hover:text-slate-300 transition">Retsplejelovens</a>
-        <a href="#" data-page="adfaerdskodeks" class="hover:text-slate-300 transition">Politiets Adfærdskodeks</a>
-        <a href="#" data-page="oevelsesopgaver" class="hover:text-slate-300 transition">Øvelsesopgaver og cases</a>
-      </nav>
-    </div>
-  </header>
+<header class="bg-slate-800/95 backdrop-blur-md sticky top-0 z-50 shadow-md">
+  <div class="max-w-6xl mx-auto px-6 py-5 flex items-center justify-between">
+    <h1 class="text-2xl font-semibold select-none text-slate-300">Politiskolen – Undervisningsmateriale</h1>
+    <nav
+      class="hidden md:flex space-x-8 text-slate-400 font-medium tracking-wide relative"
+      role="menubar"
+      aria-label="Hovednavigation"
+    >
+      <!-- Kategori-skabelon -->
+      <div class="group relative" role="none" id="menu-lr">
+        <a
+          href="#"
+          class="hover:text-slate-300 transition cursor-pointer select-none flex items-center"
+          role="menuitem"
+          aria-haspopup="true"
+          aria-expanded="false"
+          tabindex="0"
+          id="menu-lr-button"
+        >
+          LR
+          <svg
+            class="ml-1 w-3 h-3 text-slate-400 group-hover:text-slate-300 transition"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </a>
 
-  <main class="flex-grow max-w-6xl mx-auto px-6 py-12 space-y-16">
+        <div
+          class="absolute left-0 mt-2 w-56 bg-slate-800 border border-slate-700 rounded-md shadow-lg z-50"
+          role="menu"
+          aria-label="LR Undermenu"
+        >
+          <a
+            href="#"
+            data-page="straffeloven"
+            class="block px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white transition"
+            role="menuitem"
+            tabindex="-1"
+            >Straffeloven</a
+          >
+          <a
+            href="#"
+            data-page="retsplejeloven"
+            class="block px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white transition"
+            role="menuitem"
+            tabindex="-1"
+            >Retsplejelovens</a
+          >
+          <a
+            href="#"
+            data-page="adfaerdskodeks"
+            class="block px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white transition"
+            role="menuitem"
+            tabindex="-1"
+            >Politiets Adfærdskodeks</a
+          >
+          <a
+            href="#"
+            data-page="oevelsesopgaver"
+            class="block px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white transition"
+            role="menuitem"
+            tabindex="-1"
+            >Øvelsesopgaver og cases</a
+          >
+        </div>
+      </div>
 
-    <!-- Straffeloven -->
+      <!-- Nyt kategori: KØR -->
+      <div class="group relative" role="none" id="menu-kor">
+        <a
+          href="#"
+          class="hover:text-slate-300 transition cursor-pointer select-none flex items-center"
+          role="menuitem"
+          aria-haspopup="true"
+          aria-expanded="false"
+          tabindex="0"
+          id="menu-kor-button"
+        >
+          KØR
+          <svg
+            class="ml-1 w-3 h-3 text-slate-400 group-hover:text-slate-300 transition"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </a>
+
+        <div
+          class="absolute left-0 mt-2 w-56 bg-slate-800 border border-slate-700 rounded-md shadow-lg z-50"
+          role="menu"
+          aria-label="KØR Undermenu"
+        >
+          <!-- Tomme links, fyld selv ud -->
+          <a
+            href="#"
+            data-page="udrykningskorsel"
+            class="block px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white transition"
+            role="menuitem"
+            tabindex="-1"
+            >Udrykningskørsel</a
+          >
+        </div>
+      </div>
+
+      <!-- Nyt kategori: TU -->
+      <div class="group relative" role="none" id="menu-tu">
+        <a
+          href="#"
+          class="hover:text-slate-300 transition cursor-pointer select-none flex items-center"
+          role="menuitem"
+          aria-haspopup="true"
+          aria-expanded="false"
+          tabindex="0"
+          id="menu-tu-button"
+        >
+          TU
+          <svg
+            class="ml-1 w-3 h-3 text-slate-400 group-hover:text-slate-300 transition"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </a>
+
+        <div
+          class="absolute left-0 mt-2 w-56 bg-slate-800 border border-slate-700 rounded-md shadow-lg z-50"
+          role="menu"
+          aria-label="TU Undermenu"
+        >
+          <!-- Tomme links -->
+          <a
+            href="#"
+            class="block px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white transition"
+            role="menuitem"
+            tabindex="-1"
+            >Underside 1</a
+          >
+          <a
+            href="#"
+            class="block px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white transition"
+            role="menuitem"
+            tabindex="-1"
+            >Underside 2</a
+          >
+        </div>
+      </div>
+
+      <!-- Nyt kategori: AHM -->
+      <div class="group relative" role="none" id="menu-ahm">
+        <a
+          href="#"
+          class="hover:text-slate-300 transition cursor-pointer select-none flex items-center"
+          role="menuitem"
+          aria-haspopup="true"
+          aria-expanded="false"
+          tabindex="0"
+          id="menu-ahm-button"
+        >
+          AHM
+          <svg
+            class="ml-1 w-3 h-3 text-slate-400 group-hover:text-slate-300 transition"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </a>
+
+        <div
+          class="absolute left-0 mt-2 w-56 bg-slate-800 border border-slate-700 rounded-md shadow-lg z-50"
+          role="menu"
+          aria-label="AHM Undermenu"
+        >
+          <!-- Tomme links -->
+          <a
+            href="#"
+            class="block px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white transition"
+            role="menuitem"
+            tabindex="-1"
+            >Underside 1</a
+          >
+          <a
+            href="#"
+            class="block px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white transition"
+            role="menuitem"
+            tabindex="-1"
+            >Underside 2</a
+          >
+        </div>
+      </div>
+
+      <!-- Nyt kategori: PO -->
+      <div class="group relative" role="none" id="menu-po">
+        <a
+          href="#"
+          class="hover:text-slate-300 transition cursor-pointer select-none flex items-center"
+          role="menuitem"
+          aria-haspopup="true"
+          aria-expanded="false"
+          tabindex="0"
+          id="menu-po-button"
+        >
+          PO
+          <svg
+            class="ml-1 w-3 h-3 text-slate-400 group-hover:text-slate-300 transition"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </a>
+
+        <div
+          class="absolute left-0 mt-2 w-56 bg-slate-800 border border-slate-700 rounded-md shadow-lg z-50"
+          role="menu"
+          aria-label="PO Undermenu"
+        >
+          <!-- Tomme links -->
+          <a
+            href="#"
+            class="block px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white transition"
+            role="menuitem"
+            tabindex="-1"
+            >Underside 1</a
+          >
+          <a
+            href="#"
+            class="block px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white transition"
+            role="menuitem"
+            tabindex="-1"
+            >Underside 2</a
+          >
+        </div>
+      </div>
+
+      <!-- Nyt kategori: FJN -->
+      <div class="group relative" role="none" id="menu-fjn">
+        <a
+          href="#"
+          class="hover:text-slate-300 transition cursor-pointer select-none flex items-center"
+          role="menuitem"
+          aria-haspopup="true"
+          aria-expanded="false"
+          tabindex="0"
+          id="menu-fjn-button"
+        >
+          FJN
+          <svg
+            class="ml-1 w-3 h-3 text-slate-400 group-hover:text-slate-300 transition"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </a>
+
+        <div
+          class="absolute left-0 mt-2 w-56 bg-slate-800 border border-slate-700 rounded-md shadow-lg z-50"
+          role="menu"
+          aria-label="FJN Undermenu"
+        >
+          <!-- Tomme links -->
+          <a
+            href="#"
+            class="block px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white transition"
+            role="menuitem"
+            tabindex="-1"
+            >Underside 1</a
+          >
+          <a
+            href="#"
+            class="block px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white transition"
+            role="menuitem"
+            tabindex="-1"
+            >Underside 2</a
+          >
+        </div>
+      </div>
+
+      <!-- Nyt kategori: TE -->
+      <div class="group relative" role="none" id="menu-te">
+        <a
+          href="#"
+          class="hover:text-slate-300 transition cursor-pointer select-none flex items-center"
+          role="menuitem"
+          aria-haspopup="true"
+          aria-expanded="false"
+          tabindex="0"
+          id="menu-te-button"
+        >
+          TE
+          <svg
+            class="ml-1 w-3 h-3 text-slate-400 group-hover:text-slate-300 transition"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </a>
+
+        <div
+          class="absolute left-0 mt-2 w-56 bg-slate-800 border border-slate-700 rounded-md shadow-lg z-50"
+          role="menu"
+          aria-label="TE Undermenu"
+        >
+          <!-- Tomme links -->
+          <a
+            href="#"
+            class="block px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white transition"
+            role="menuitem"
+            tabindex="-1"
+            >Underside 1</a
+          >
+          <a
+            href="#"
+            class="block px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white transition"
+            role="menuitem"
+            tabindex="-1"
+            >Underside 2</a
+          >
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main class="flex-grow max-w-6xl mx-auto px-6 py-12 space-y-16">
+    <!-- Indholdssider som før -->
     <section id="straffeloven" class="page active bg-slate-800 rounded-2xl shadow-lg p-10 ring-1 ring-slate-700">
     <h2 class="text-4xl font-semibold mb-6 text-slate-300 border-b-2 border-slate-600 pb-3 select-none">📘 Uddrag af Straffeloven</h2>
     <p class="mb-10 text-slate-400 max-w-3xl leading-relaxed">
@@ -68,96 +414,6 @@
         Anvendelse: Beskytter offentligt ansatte (f.eks. politifolk, dommere, socialarbejdere) mod vold og trusler, så de kan udføre deres arbejde uden uretmæssig påvirkning.
         </p>
     </article>
-
-    <article class="mb-10 p-6 bg-slate-700 rounded-lg shadow-md hover:shadow-slate-600 transition-shadow duration-300">
-        <h3 class="text-2xl font-semibold text-slate-200 mb-2">§ 123 – Trusler mod vidner og embedsmænd</h3>
-        <p class="mb-3 text-slate-300 leading-relaxed">
-        Den, der ved vold eller trussel om vold søger at hindre nogen i at afgive forklaring til en myndighed, straffes med bøde eller fængsel indtil 2 år.
-        </p>
-        <p class="text-sm text-slate-400 italic select-text leading-snug">
-        Anvendelse: Sikrer retssikkerheden ved at beskytte vidner og embedsmænd mod at blive afskrækket fra at afgive sandfærdig forklaring.
-        </p>
-    </article>
-
-    <article class="mb-10 p-6 bg-slate-700 rounded-lg shadow-md hover:shadow-slate-600 transition-shadow duration-300">
-        <h3 class="text-2xl font-semibold text-slate-200 mb-2">§ 244 – Simpel vold</h3>
-        <p class="mb-3 text-slate-300 leading-relaxed">
-        Den, der øver vold mod eller på anden måde angriber en anden person, straffes med bøde eller fængsel indtil 3 år.
-        </p>
-        <p class="text-sm text-slate-400 italic select-text leading-snug">
-        Anvendelse: Omfatter almindelig fysisk vold uden særlige skærpende omstændigheder.
-        </p>
-    </article>
-
-    <article class="mb-10 p-6 bg-slate-700 rounded-lg shadow-md hover:shadow-slate-600 transition-shadow duration-300">
-        <h3 class="text-2xl font-semibold text-slate-200 mb-2">§ 245 – Vold med døden eller særlig alvorlig skade til følge (Grov vold)</h3>
-        <p class="mb-3 text-slate-300 leading-relaxed">
-        Den, der udøver vold, som medfører død eller særlig alvorlig legemsskade, straffes med fængsel indtil 10 år, og i særligt grove tilfælde med fængsel på livstid.
-        </p>
-        <p class="text-sm text-slate-400 italic select-text leading-snug">
-        Anvendelse: Anvendes ved vold, der forårsager døden eller varige alvorlige skader på offeret.
-        </p>
-    </article>
-
-    <article class="mb-10 p-6 bg-slate-700 rounded-lg shadow-md hover:shadow-slate-600 transition-shadow duration-300">
-        <h3 class="text-2xl font-semibold text-slate-200 mb-2">§ 246 – Grov vold</h3>
-        <p class="mb-3 text-slate-300 leading-relaxed">
-        Den, der ved grov vold eller mishandling voldeligt angriber en anden person, straffes med fængsel indtil 6 år.
-        </p>
-        <p class="text-sm text-slate-400 italic select-text leading-snug">
-        Anvendelse: Omfatter voldshandlinger, der er mere alvorlige end simpel vold, fx gentagne slag eller vold mod særligt sårbare personer.
-        </p>
-    </article>
-
-    <article class="mb-10 p-6 bg-slate-700 rounded-lg shadow-md hover:shadow-slate-600 transition-shadow duration-300">
-        <h3 class="text-2xl font-semibold text-slate-200 mb-2">§ 252 – Uagtsomt fareforvoldelse</h3>
-        <p class="mb-3 text-slate-300 leading-relaxed">
-        Den, der uagtsomt bringer andres liv eller helbred i åbenbar fare, straffes med bøde eller fængsel indtil 8 år.
-        </p>
-        <p class="text-sm text-slate-400 italic select-text leading-snug">
-        Anvendelse: Gælder f.eks. uagtsomhed, der fører til fare for andres liv eller helbred, fx trafikulykker.
-        </p>
-    </article>
-
-    <article class="mb-10 p-6 bg-slate-700 rounded-lg shadow-md hover:shadow-slate-600 transition-shadow duration-300">
-        <h3 class="text-2xl font-semibold text-slate-200 mb-2">§ 266 – Hets mod befolkningsgruppe</h3>
-        <p class="mb-3 text-slate-300 leading-relaxed">
-        Den, der offentligt fremsætter trusler, forhånelser eller nedværdigende udtalelser mod en gruppe på grund af race, religion eller etnisk oprindelse, straffes med bøde eller fængsel indtil 2 år.
-        </p>
-        <p class="text-sm text-slate-400 italic select-text leading-snug">
-        Anvendelse: Bekæmper hadforbrydelser og sikrer respekt for alle befolkningsgrupper.
-        </p>
-    </article>
-
-    <article class="mb-10 p-6 bg-slate-700 rounded-lg shadow-md hover:shadow-slate-600 transition-shadow duration-300">
-        <h3 class="text-2xl font-semibold text-slate-200 mb-2">§ 276 – Tyveri</h3>
-        <p class="mb-3 text-slate-300 leading-relaxed">
-        Den, der uberettiget tager en andens ting med forsæt til at skaffe sig eller andre en uberettiget fordel, straffes med fængsel indtil 6 år.
-        </p>
-        <p class="text-sm text-slate-400 italic select-text leading-snug">
-        Anvendelse: Dækker almindeligt tyveri og småkriminalitet.
-        </p>
-    </article>
-
-    <article class="mb-10 p-6 bg-slate-700 rounded-lg shadow-md hover:shadow-slate-600 transition-shadow duration-300">
-        <h3 class="text-2xl font-semibold text-slate-200 mb-2">§ 289 – Hæleri</h3>
-        <p class="mb-3 text-slate-300 leading-relaxed">
-        Den, der modtager, opbevarer eller sælger ting, som ved strafbar handling er erhvervet, straffes med fængsel indtil 3 år.
-        </p>
-        <p class="text-sm text-slate-400 italic select-text leading-snug">
-        Anvendelse: Retter sig mod handel med stjålne varer.
-        </p>
-    </article>
-
-    <article class="mb-10 p-6 bg-slate-700 rounded-lg shadow-md hover:shadow-slate-600 transition-shadow duration-300">
-        <h3 class="text-2xl font-semibold text-slate-200 mb-2">§ 237 – Manddrab</h3>
-        <p class="mb-3 text-slate-300 leading-relaxed">
-        Den, der dræber en anden, straffes med fængsel på livstid eller indtil 16 år.
-        </p>
-        <p class="text-sm text-slate-400 italic select-text leading-snug">
-        Anvendelse: Den alvorligste forbrydelse mod liv.
-        </p>
-    </article>
     </section>
 
     <section id="retsplejeloven" class="page bg-slate-800 rounded-2xl shadow-lg p-10 ring-1 ring-slate-700">
@@ -170,69 +426,8 @@
         <p class="text-sm text-slate-400 italic select-text leading-snug">Anvendelse: Anholdelse kræver konkret mistanke og skal være forholdsmæssig.</p>
     </article>
 
-    <article class="mb-10 p-6 bg-slate-700 rounded-lg shadow-md hover:shadow-slate-600 transition-shadow duration-300">
-        <h3 class="text-2xl font-semibold text-slate-200 mb-2">§ 756 – Fremstilling for dommer</h3>
-        <p class="mb-3 text-slate-300 leading-relaxed">Den anholdte skal snarest muligt fremføres for en dommer, som vurderer lovligheden af anholdelsen og eventuel varetægtsfængsling.</p>
-        <p class="text-sm text-slate-400 italic select-text leading-snug">Anvendelse: Sikrer kontrol med politiets frihedsberøvelse af borgere.</p>
-    </article>
-
-    <article class="mb-10 p-6 bg-slate-700 rounded-lg shadow-md hover:shadow-slate-600 transition-shadow duration-300">
-        <h3 class="text-2xl font-semibold text-slate-200 mb-2">§ 792 – Visitation</h3>
-        <p class="mb-3 text-slate-300 leading-relaxed">Politiet kan visitere personer og deres ejendele, hvis der er rimelig grund til at antage, at de besidder bevismateriale eller genstande, der kan beslaglægges.</p>
-        <p class="text-sm text-slate-400 italic select-text leading-snug">Anvendelse: Både bevisindsamling og forebyggelse.</p>
-    </article>
-
-    <article class="mb-10 p-6 bg-slate-700 rounded-lg shadow-md hover:shadow-slate-600 transition-shadow duration-300">
-        <h3 class="text-2xl font-semibold text-slate-200 mb-2">§ 796 – Ransagning</h3>
-        <p class="mb-3 text-slate-300 leading-relaxed">Ransagning af private boliger og ikke-offentligt tilgængelige lokaliteter kræver normalt retskendelse, medmindre særlige, akut opståede forhold foreligger.</p>
-        <p class="text-sm text-slate-400 italic select-text leading-snug">Anvendelse: Beskytter privatlivets fred men sikrer effektiv efterforskning ved akutte tilfælde.</p>
-    </article>
-
-    <article class="mb-10 p-6 bg-slate-700 rounded-lg shadow-md hover:shadow-slate-600 transition-shadow duration-300">
-        <h3 class="text-2xl font-semibold text-slate-200 mb-2">§ 798 – Ransagning ved dommerkendelse</h3>
-        <p class="mb-3 text-slate-300 leading-relaxed">Retskendelse til ransagning skal indeholde formål, sted, genstand og tid, og den skal føres til protokol.</p>
-        <p class="text-sm text-slate-400 italic select-text leading-snug">Anvendelse: Sikrer gennemsigtighed og lovlighed i ransagninger.</p>
-    </article>
-
-    <article class="mb-10 p-6 bg-slate-700 rounded-lg shadow-md hover:shadow-slate-600 transition-shadow duration-300">
-        <h3 class="text-2xl font-semibold text-slate-200 mb-2">§ 799 – Beslaglæggelse</h3>
-        <p class="mb-3 text-slate-300 leading-relaxed">Genstande, der kan tjene som bevis eller er resultat af kriminalitet, kan beslaglægges under ransagning. Beslaglæggelsen skal straks dokumenteres.</p>
-        <p class="text-sm text-slate-400 italic select-text leading-snug">Anvendelse: Beviser sikres korrekt og lovligt.</p>
-    </article>
-
-    <article class="mb-10 p-6 bg-slate-700 rounded-lg shadow-md hover:shadow-slate-600 transition-shadow duration-300">
-        <h3 class="text-2xl font-semibold text-slate-200 mb-2">§ 729c – Underretning og protokol ved anholdelse</h3>
-        <p class="mb-3 text-slate-300 leading-relaxed">Den anholdte skal straks underrettes om årsagen til anholdelsen og sine rettigheder. Politiet skal føre protokol over alle retsplejemæssige skridt.</p>
-        <p class="text-sm text-slate-400 italic select-text leading-snug">Anvendelse: Beskytter den anholdtes rettigheder og sikrer dokumentation.</p>
-    </article>
-
-    <article class="mb-10 p-6 bg-slate-700 rounded-lg shadow-md hover:shadow-slate-600 transition-shadow duration-300">
-        <h3 class="text-2xl font-semibold text-slate-200 mb-2">§ 767 – Forhør af anholdte</h3>
-        <p class="mb-3 text-slate-300 leading-relaxed">Den anholdte har ret til at få oplyst grundlaget for anholdelsen og skal have mulighed for at kontakte forsvarer.</p>
-        <p class="text-sm text-slate-400 italic select-text leading-snug">Anvendelse: Sikrer retssikkerhed og forsvarerbeskyttelse.</p>
-    </article>
-
-    <article class="mb-10 p-6 bg-slate-700 rounded-lg shadow-md hover:shadow-slate-600 transition-shadow duration-300">
-        <h3 class="text-2xl font-semibold text-slate-200 mb-2">§ 773 – Brug af magt ved anholdelse</h3>
-        <p class="mb-3 text-slate-300 leading-relaxed">Politiet må anvende nødvendig magt til at gennemføre anholdelse, men magtanvendelsen skal stå i forhold til situationen.</p>
-        <p class="text-sm text-slate-400 italic select-text leading-snug">Anvendelse: Ret til magtanvendelse ved modstand, men underlagt proportionalitet.</p>
-    </article>
-
-    <article class="mb-10 p-6 bg-slate-700 rounded-lg shadow-md hover:shadow-slate-600 transition-shadow duration-300">
-        <h3 class="text-2xl font-semibold text-slate-200 mb-2">§ 802 – Indtrængen i private rum uden samtykke</h3>
-        <p class="mb-3 text-slate-300 leading-relaxed">Politiet kan i nødstilfælde træde ind i private rum uden samtykke for at forhindre strafbare handlinger eller beskytte liv og ejendom.</p>
-        <p class="text-sm text-slate-400 italic select-text leading-snug">Anvendelse: Akut magtanvendelse med henblik på forebyggelse.</p>
-    </article>
-
-    <article class="mb-10 p-6 bg-slate-700 rounded-lg shadow-md hover:shadow-slate-600 transition-shadow duration-300">
-        <h3 class="text-2xl font-semibold text-slate-200 mb-2">§ 803 – Indgreb mod børn og unge</h3>
-        <p class="mb-3 text-slate-300 leading-relaxed">Særlige regler gælder ved ransagning, visitation og anholdelse af personer under 18 år, med fokus på børns rettigheder og beskyttelse.</p>
-        <p class="text-sm text-slate-400 italic select-text leading-snug">Anvendelse: Skærpet beskyttelse af mindreårige.</p>
-    </article>
     </section>
 
-
-    <!-- Adfærdskodeks -->
     <section id="adfaerdskodeks" class="page bg-slate-800 rounded-2xl shadow-lg p-10 ring-1 ring-slate-700">
     <h2 class="text-4xl font-semibold mb-6 text-slate-300 border-b-2 border-slate-600 pb-3 select-none">🎓 E-læringskursus i Politiets Adfærdskodeks</h2>
     <p class="mb-10 text-slate-400 max-w-3xl leading-relaxed">
@@ -244,129 +439,187 @@
         <p class="mb-2 text-slate-300 leading-relaxed">
         Politiets opgave er at beskytte og behandle alle borgere ligeværdigt, uanset deres baggrund, tro eller politiske holdninger.
         </p>
-        <p class="text-sm text-slate-400 italic leading-snug select-text">Anvendelse: Skaber tillid og legitimitet i samfundet.</p>
+        <p class="text-sm text-slate-400 italic leading-snug select-text">Anvendelse: Skaber tillid mellem politi og samfund.</p>
     </article>
 
-    <article class="mb-8 p-6 bg-slate-700 rounded-lg shadow-md hover:shadow-slate-600 transition-shadow duration-300">
-        <h3 class="text-2xl font-semibold text-slate-200 mb-2">Upartiskhed</h3>
-        <p class="mb-2 text-slate-300 leading-relaxed">
-        Politiet skal altid agere uden forudindtagede holdninger, sikre fair behandling og undgå enhver form for diskrimination.
-        </p>
-        <p class="text-sm text-slate-400 italic leading-snug select-text">Anvendelse: Sikrer retfærdighed og troværdighed i politiets arbejde.</p>
-    </article>
-
-    <article class="mb-8 p-6 bg-slate-700 rounded-lg shadow-md hover:shadow-slate-600 transition-shadow duration-300">
-        <h3 class="text-2xl font-semibold text-slate-200 mb-2">Proportionalitet</h3>
-        <p class="mb-2 text-slate-300 leading-relaxed">
-        Anvendelse af magt og indgriben skal altid stå i rimeligt og nødvendigt forhold til den aktuelle situation.
-        </p>
-        <p class="text-sm text-slate-400 italic leading-snug select-text">Anvendelse: Forebygger overgreb og beskytter borgernes rettigheder.</p>
-    </article>
-
-    <article class="mb-8 p-6 bg-slate-700 rounded-lg shadow-md hover:shadow-slate-600 transition-shadow duration-300">
-        <h3 class="text-2xl font-semibold text-slate-200 mb-2">Fortrolighed</h3>
-        <p class="mb-2 text-slate-300 leading-relaxed">
-        Politiet skal behandle alle oplysninger og persondata diskret og i overensstemmelse med gældende lovgivning.
-        </p>
-        <p class="text-sm text-slate-400 italic leading-snug select-text">Anvendelse: Beskytter borgernes privatliv og opretholder lovkrav.</p>
-    </article>
-
-    <article class="mb-8 p-6 bg-slate-700 rounded-lg shadow-md hover:shadow-slate-600 transition-shadow duration-300">
-        <h3 class="text-2xl font-semibold text-slate-200 mb-2">Kommunikation</h3>
-        <p class="mb-2 text-slate-300 leading-relaxed">
-        Klar, rolig og respektfuld kommunikation er afgørende for at skabe tillid og løse konflikter effektivt.
-        </p>
-        <p class="text-sm text-slate-400 italic leading-snug select-text">Anvendelse: Fremmer samarbejde og mindsker eskalation.</p>
-    </article>
-
-    <article class="mb-8 p-6 bg-slate-700 rounded-lg shadow-md hover:shadow-slate-600 transition-shadow duration-300">
-        <h3 class="text-2xl font-semibold text-slate-200 mb-2">Selvkontrol</h3>
-        <p class="mb-2 text-slate-300 leading-relaxed">
-        Politiet skal kunne bevare roen og styre egne følelser, også i pressede eller konfliktfyldte situationer.
-        </p>
-        <p class="text-sm text-slate-400 italic leading-snug select-text">Anvendelse: Sikrer professionel og sikker håndtering af hændelser.</p>
-    </article>
-
-    <p class="mt-12 text-slate-400 max-w-3xl leading-relaxed italic">
-        For mere dybdegående læring anbefales interaktive moduler og quizzer, som kan findes på <a href="https://politiet.dk/uddannelse" target="_blank" class="text-slate-300 underline hover:text-slate-100">Politiets officielle uddannelsesportal</a>.
-    </p>
     </section>
 
-<!-- Øvelsesopgaver -->
-<section id="oevelsesopgaver" class="page bg-slate-800 rounded-2xl shadow-lg p-10 ring-1 ring-slate-700">
-  <h2 class="text-4xl font-semibold mb-6 text-slate-300 border-b-2 border-slate-600 pb-3 select-none">📝 Øvelsesopgaver og Virkelighedsnære Cases</h2>
-  <p class="mb-10 text-slate-400 max-w-3xl leading-relaxed">
-    Her finder du cases og øvelsesopgaver, som er designet til at træne politiets vurdering, beslutningstagning og reaktion i realistiske situationer.
-  </p>
-
-  <article class="mb-8 p-6 bg-slate-700 rounded-lg shadow-md hover:shadow-slate-600 transition-shadow duration-300">
-    <h3 class="text-2xl font-semibold text-slate-200 mb-3">Case 1: Trafikulykke med personskade</h3>
-    <p class="mb-3 text-slate-300 leading-relaxed">
-      Du ankommer til en trafikulykke, hvor en cyklist er blevet påkørt. Flere vidner er til stede, men de giver forskellige beskrivelser af hændelsen. Hvordan prioriterer du din indsats, og hvilke handlinger udfører du først?
+    <section id="oevelsesopgaver" class="page bg-slate-800 rounded-2xl shadow-lg p-10 ring-1 ring-slate-700">
+    <h2 class="text-4xl font-semibold mb-6 text-slate-300 border-b-2 border-slate-600 pb-3 select-none">📝 Øvelsesopgaver og Cases</h2>
+    <p class="mb-10 text-slate-400 max-w-3xl leading-relaxed">
+        Her findes cases og opgaver, der kan træne politiets beslutningstagning, retsforståelse og praksis i komplekse situationer.
     </p>
-    <ul class="list-disc pl-5 space-y-1 text-slate-400 max-w-3xl">
-      <li>Prioriter sikring af skadested og førstehjælp.</li>
-      <li>Indsamling af vidneudsagn og identificering af vidner.</li>
-      <li>Dokumentation af skader og scene med fotos og rapport.</li>
-      <li>Sikring af trafikken og varsling af relevant assistance.</li>
-    </ul>
-  </article>
 
-  <article class="mb-8 p-6 bg-slate-700 rounded-lg shadow-md hover:shadow-slate-600 transition-shadow duration-300">
-    <h3 class="text-2xl font-semibold text-slate-200 mb-3">Case 2: Mistanke om butikstyveri</h3>
-    <p class="mb-3 text-slate-300 leading-relaxed">
-      En butikschef kontakter dig med mistanke om butikstyveri. Der er overvågningsvideo og vidneudsagn, men gerningsmanden er ikke fanget. Hvordan gennemfører du efterforskningen og sikrer bevismateriale?
+    <article class="mb-8 p-6 bg-slate-700 rounded-lg shadow-md hover:shadow-slate-600 transition-shadow duration-300">
+        <h3 class="text-2xl font-semibold text-slate-200 mb-2">Case 1: Anholdelse ved demonstration</h3>
+        <p class="mb-2 text-slate-300 leading-relaxed">
+        Hvordan sikrer man en lovlig anholdelse uden unødvendig magtanvendelse ved en urolig demonstration? Diskuter med fokus på retsplejelovens regler.
+        </p>
+        <p class="text-sm text-slate-400 italic leading-snug select-text">Anvendelse: Udvikler taktisk og juridisk forståelse.</p>
+    </article>
+    </section>
+
+  <section id="udrykningskorsel" class="page bg-slate-800 rounded-2xl shadow-lg p-10 ring-1 ring-slate-700">
+    <h2 class="text-4xl font-semibold mb-6 text-slate-300 border-b-2 border-slate-600 pb-3 select-none">🚓 Udrykningskørsel</h2>
+    <p class="mb-10 text-slate-400 max-w-3xl leading-relaxed">
+      Her findes de vigtigste elementer i reaktion og anvendelse af udrykning under kørsel. Det er vigtigt, at vi som tjenestemænd viser en ordentlig og tilfredsstillende kørestil, der sikrer både sikkerhed og effektivitet.
     </p>
-    <ul class="list-disc pl-5 space-y-1 text-slate-400 max-w-3xl">
-      <li>Gennemgå overvågningsvideoen nøje og noter relevante detaljer.</li>
-      <li>Interview vidner og notér eventuelle modstridende udsagn.</li>
-      <li>Søg efter yderligere beviser på gerningsstedet.</li>
-      <li>Kontakt andre butikker for lignende hændelser og spor.</li>
-    </ul>
-  </article>
 
-  <article class="mb-8 p-6 bg-slate-700 rounded-lg shadow-md hover:shadow-slate-600 transition-shadow duration-300">
-    <h3 class="text-2xl font-semibold text-slate-200 mb-3">Øvelsesopgave: Kommunikation under stress</h3>
-    <p class="mb-3 text-slate-300 leading-relaxed">
-      Træn din evne til at kommunikere roligt og klart under pres ved at gennemgå følgende rollespilsscenarier med kolleger og evaluér hinandens performance.
-    </p>
-    <ul class="list-disc pl-5 space-y-1 text-slate-400 max-w-3xl">
-      <li>Håndtering af aggressiv borger uden eskalation.</li>
-      <li>Koordinering af indsats under en ulykke.</li>
-      <li>Formidling af information til offentligheden under kriser.</li>
-      <li>Brug af kropssprog og tonefald til at berolige situationen.</li>
-    </ul>
-  </article>
-</section>
+    <article class="mb-8 p-6 bg-slate-700 rounded-lg shadow-md hover:shadow-slate-600 transition-shadow duration-300">
+      <h3 class="text-2xl font-semibold text-slate-200 mb-2">Vigtige principper ved udrykningskørsel</h3>
+      <ul class="list-disc list-inside text-slate-300 leading-relaxed">
+        <li>Vær altid opmærksom på omgivelserne og vurder trafiksituationen grundigt, inden du iværksætter udrykning.</li>
+        <li>Brug sirener og blinklys korrekt for at gøre andre trafikanter opmærksomme på din tilstedeværelse.</li>
+        <li>Tilpas hastigheden efter vejr-, trafik- og vejrforhold – sikkerhed går altid forud for hastighed.</li>
+        <li>Undgå unødvendige risikable manøvrer som skarpe sving eller kørsel mod rødt lys, medmindre det er absolut nødvendigt.</li>
+        <li>Kommunikér løbende med andre enheder via radio for at koordinere indsatsen effektivt.</li>
+        <li>Tag hensyn til fodgængere og cyklister, der kan være svære at se, især i byområder.</li>
+        <li>Vær mentalt forberedt på at reagere hurtigt og roligt i uforudsigelige situationer.</li>
+        <li>Efter afsluttet udrykning, evaluer din kørsel og lær af eventuelle fejl eller udfordringer.</li>
+      </ul>
+    </article>
+  </section>
 
+</main>
 
-  </main>
+<script>
+const menus = [
+  'lr',
+  'kor',
+  'tu',
+  'ahm',
+  'po',
+  'fjn',
+  'te'
+];
 
-  <script>
-    // Navigations-links
-    const navLinks = document.querySelectorAll('nav a');
-    const pages = document.querySelectorAll('section.page');
+menus.forEach(menuId => {
+  const menu = document.getElementById(`menu-${menuId}`);
+  if (!menu) return; // spring hvis menu ikke findes
 
-    navLinks.forEach(link => {
-      link.addEventListener('click', e => {
-        e.preventDefault();
-        const pageId = link.dataset.page;
+  const menuButton = document.getElementById(`menu-${menuId}-button`);
+  if (!menuButton) return;
 
-        // Aktivér valgt sektion
-        pages.forEach(page => {
-          if (page.id === pageId) {
-            page.classList.add('active');
-            page.scrollTop = 0;
-          } else {
-            page.classList.remove('active');
-          }
+  const dropdown = menu.querySelector('div[role="menu"]');
+  if (!dropdown) return;
+
+  const menuItems = dropdown.querySelectorAll('a[role="menuitem"]');
+
+  let isOverButton = false;
+  let isOverDropdown = false;
+  let closeTimeout;
+
+  function setAriaExpanded(value) {
+    menuButton.setAttribute('aria-expanded', value);
+  }
+
+  function openMenu() {
+    menu.classList.add('open');
+    setAriaExpanded('true');
+  }
+
+  function closeMenu() {
+    menu.classList.remove('open');
+    setAriaExpanded('false');
+    menuButton.focus();
+  }
+
+  function tryCloseMenu() {
+    closeTimeout = setTimeout(() => {
+      if (!isOverButton && !isOverDropdown) {
+        closeMenu();
+      }
+    }, 100);
+  }
+
+  menuButton.addEventListener('mouseenter', () => {
+    isOverButton = true;
+    clearTimeout(closeTimeout);
+    openMenu();
+  });
+
+  menuButton.addEventListener('mouseleave', () => {
+    isOverButton = false;
+    clearTimeout(closeTimeout);
+    tryCloseMenu();
+  });
+
+  dropdown.addEventListener('mouseenter', () => {
+    isOverDropdown = true;
+    clearTimeout(closeTimeout);
+    openMenu();
+  });
+
+  dropdown.addEventListener('mouseleave', () => {
+    isOverDropdown = false;
+    clearTimeout(closeTimeout);
+    tryCloseMenu();
+  });
+
+  menuItems.forEach(item => {
+    item.addEventListener('click', e => {
+      e.preventDefault();
+      const page = item.getAttribute('data-page');
+      if (page) {
+        document.querySelectorAll('section.page').forEach(section => {
+          section.classList.remove('active');
         });
 
-        // Aktivér menu-link
-        navLinks.forEach(l => l.classList.remove('active'));
-        link.classList.add('active');
-      });
+        const targetSection = document.getElementById(page);
+        if (targetSection) {
+          targetSection.classList.add('active');
+        }
+
+        menuItems.forEach(link => link.classList.remove('active'));
+        item.classList.add('active');
+
+        closeMenu();
+      }
     });
-  </script>
+  });
+
+  menuItems.forEach((item, index) => {
+    item.addEventListener('keydown', e => {
+      switch (e.key) {
+        case 'ArrowDown':
+          e.preventDefault();
+          if (index < menuItems.length - 1) {
+            menuItems[index + 1].focus();
+          } else {
+            menuItems[0].focus();
+          }
+          break;
+        case 'ArrowUp':
+          e.preventDefault();
+          if (index > 0) {
+            menuItems[index - 1].focus();
+          } else {
+            menuItems[menuItems.length - 1].focus();
+          }
+          break;
+        case 'Escape':
+          e.preventDefault();
+          closeMenu();
+          break;
+        case 'Tab':
+          if (!e.shiftKey && index === menuItems.length - 1) {
+            closeMenu();
+          }
+          if (e.shiftKey && index === 0) {
+            closeMenu();
+          }
+          break;
+        case 'Enter':
+        case ' ':
+          e.preventDefault();
+          item.click();
+          break;
+      }
+    });
+  });
+});
+</script>
+
+
 </body>
 </html>
