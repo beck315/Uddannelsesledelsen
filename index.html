@@ -2,62 +2,99 @@
 <html lang="da">
 <head>
   <meta charset="UTF-8">
-  <title>Genstands Værdiudregner</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Værdiudregner</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: radial-gradient(circle at top left, #0f172a, #020617);
+      font-family: 'Segoe UI', sans-serif;
+    }
+    .glass {
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  </style>
 </head>
-<body class="bg-gray-900 text-white min-h-screen flex items-center justify-center p-6">
+<body class="min-h-screen flex items-center justify-center px-4 py-10 text-white">
 
-  <div class="bg-gray-800 rounded-2xl shadow-2xl p-8 max-w-xl w-full space-y-6">
-    <h2 class="text-2xl font-bold text-center text-white">💎 Genstands Værdiudregner</h2>
-    
-    <form id="calcForm" class="space-y-4">
-      <!-- Input fields -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <label class="flex justify-between">Halskæde (1.000 DKK): <input type="number" name="halskaede" value="0" class="bg-gray-700 text-white p-2 rounded w-20 text-right"></label>
-        <label class="flex justify-between">Diamant Halskæde (3.250 DKK): <input type="number" name="diamant_halskaede" value="0" class="bg-gray-700 text-white p-2 rounded w-20 text-right"></label>
-        <label class="flex justify-between">Ring (750 DKK): <input type="number" name="ring" value="0" class="bg-gray-700 text-white p-2 rounded w-20 text-right"></label>
-        <label class="flex justify-between">Diamant Ring (3.250 DKK): <input type="number" name="diamant_ring" value="0" class="bg-gray-700 text-white p-2 rounded w-20 text-right"></label>
-        <label class="flex justify-between">Ur (750 DKK): <input type="number" name="ur" value="0" class="bg-gray-700 text-white p-2 rounded w-20 text-right"></label>
-        <label class="flex justify-between">Luksuriøst Ur (2.950 DKK): <input type="number" name="luksurioest_ur" value="0" class="bg-gray-700 text-white p-2 rounded w-20 text-right"></label>
-        <label class="flex justify-between">Guldbarre (3.000 DKK): <input type="number" name="guldbarre" value="0" class="bg-gray-700 text-white p-2 rounded w-20 text-right"></label>
-        <label class="flex justify-between">Diamant Boks (3.900 DKK): <input type="number" name="diamant_boks" value="0" class="bg-gray-700 text-white p-2 rounded w-20 text-right"></label>
-        <label class="flex justify-between">Mønter (2.300 DKK): <input type="number" name="moenter" value="0" class="bg-gray-700 text-white p-2 rounded w-20 text-right"></label>
-        <label class="flex justify-between">Kranium Kunst (2.000 DKK): <input type="number" name="kranium_kunst" value="0" class="bg-gray-700 text-white p-2 rounded w-20 text-right"></label>
-      </div>
+  <div class="w-full max-w-3xl glass rounded-2xl p-8 shadow-xl space-y-8">
+    <div class="text-center">
+      <h1 class="text-4xl font-extrabold tracking-tight">💎 Værdiudregner</h1>
+      <p class="text-gray-400 mt-2">Indtast antal af dine værdigenstande og se den samlede værdi.</p>
+    </div>
 
-      <!-- Button -->
-      <div class="text-center">
-        <button type="button" onclick="beregn()" class="bg-indigo-600 hover:bg-indigo-700 transition-colors px-6 py-2 rounded-lg font-semibold">Beregn Værdi</button>
-      </div>
-    </form>
+    <div id="varerContainer" class="grid gap-4 sm:grid-cols-2"></div>
 
-    <!-- Resultat -->
-    <div class="text-center text-2xl font-bold text-green-400" id="resultat">Total: 0 DKK</div>
+    <div class="flex justify-between items-center pt-6 border-t border-white/10">
+      <span class="text-xl">💰 <strong>Total:</strong></span>
+      <span id="totalVis" class="text-2xl font-mono font-semibold text-emerald-400">0 DKK</span>
+    </div>
   </div>
 
   <script>
+    const varer = {
+      "Halskæde": 1000,
+      "Diamant Halskæde": 3250,
+      "Ring": 750,
+      "Diamant Ring": 3250,
+      "Ur": 750,
+      "Luksuriøst Ur": 2950,
+      "Guldbarre": 3000,
+      "Diamant Boks": 3900,
+      "Mønter": 2300,
+      "Kranium Kunst": 2000
+    };
+
+    const container = document.getElementById("varerContainer");
+
+    for (const [navn, pris] of Object.entries(varer)) {
+      const card = document.createElement("div");
+      card.className = "bg-white/5 hover:bg-white/10 transition-all duration-200 p-4 rounded-xl flex justify-between items-center";
+
+      const info = document.createElement("div");
+      info.innerHTML = `
+        <div class="font-medium">${navn}</div>
+        <div class="text-sm text-gray-400">${pris.toLocaleString()} DKK/stk</div>
+      `;
+
+      const input = document.createElement("input");
+      input.type = "number";
+      input.min = "0";
+      input.value = "0";
+      input.dataset.price = pris;
+      input.className = "w-20 text-right bg-white/10 text-white rounded-md px-3 py-1 focus:outline-none focus:ring-2 focus:ring-emerald-400 transition font-mono";
+
+      // input events
+      input.addEventListener("input", beregn);
+      input.addEventListener("focus", () => {
+        if (input.value === "0") input.value = "";
+      });
+      input.addEventListener("blur", () => {
+        if (input.value === "") input.value = "0";
+        beregn();
+      });
+
+      card.appendChild(info);
+      card.appendChild(input);
+      container.appendChild(card);
+    }
+
     function beregn() {
-      const priser = {
-        halskaede: 1000,
-        diamant_halskaede: 3250,
-        ring: 750,
-        diamant_ring: 3250,
-        ur: 750,
-        luksurioest_ur: 2950,
-        guldbarre: 3000,
-        diamant_boks: 3900,
-        moenter: 2300,
-        kranium_kunst: 2000
-      };
-
+      const inputs = document.querySelectorAll("input");
       let total = 0;
-      const form = document.forms['calcForm'];
-      for (const navn in priser) {
-        const antal = parseInt(form[navn].value) || 0;
-        total += priser[navn] * antal;
-      }
-
-      document.getElementById('resultat').textContent = `Total: ${total.toLocaleString()} DKK`;
+      inputs.forEach(input => {
+        const pris = parseInt(input.dataset.price);
+        const antal = parseInt(input.value) || 0;
+        total += pris * antal;
+      });
+      document.getElementById("totalVis").textContent = `${total.toLocaleString()} DKK`;
     }
   </script>
 
