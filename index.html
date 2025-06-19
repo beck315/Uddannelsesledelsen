@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="da">
+<html lang="da" >
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Værdiudregner</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Stofudregner med dynamisk pris</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body {
@@ -20,25 +20,70 @@
       -webkit-appearance: none;
       margin: 0;
     }
+    .tabs button {
+      @apply px-6 py-3 font-semibold text-white rounded-t-lg focus:outline-none transition;
+      background: rgba(255 255 255 / 0.05);
+    }
+    .tabs button.active {
+      background: rgba(255 255 255 / 0.15);
+      border-bottom: 2px solid #22c55e; /* emerald-400 */
+    }
   </style>
 </head>
 <body class="min-h-screen flex items-center justify-center px-4 py-10 text-white">
 
   <div class="w-full max-w-3xl glass rounded-2xl p-8 shadow-xl space-y-8">
-    <div class="text-center">
-      <h1 class="text-4xl font-extrabold tracking-tight">💎 Værdiudregner</h1>
-      <p class="text-gray-400 mt-2">Indtast antal af dine værdigenstande og se den samlede værdi.</p>
+
+    <!-- Tabs -->
+    <div class="tabs flex space-x-2 border-b border-white/20">
+      <button id="tabVaerdi" class="active">💎 Værdiudregner</button>
+      <button id="tabStof">⚖️ Stofudregner</button>
     </div>
 
-    <div id="varerContainer" class="grid gap-4 sm:grid-cols-2"></div>
+    <!-- Værdiudregner side -->
+    <section id="vaerdiSide" class="space-y-6">
+      <div class="text-center">
+        <h1 class="text-4xl font-extrabold tracking-tight">💎 Værdiudregner</h1>
+        <p class="text-gray-400 mt-2">Indtast antal af dine værdigenstande og se den samlede værdi.</p>
+      </div>
+      <div id="varerContainer" class="grid gap-4 sm:grid-cols-2"></div>
+      <div class="flex justify-between items-center pt-6 border-t border-white/10">
+        <span class="text-xl">💰 <strong>Total:</strong></span>
+        <span id="totalVis" class="text-2xl font-mono font-semibold text-emerald-400">0 DKK</span>
+      </div>
+    </section>
 
-    <div class="flex justify-between items-center pt-6 border-t border-white/10">
-      <span class="text-xl">💰 <strong>Total:</strong></span>
-      <span id="totalVis" class="text-2xl font-mono font-semibold text-emerald-400">0 DKK</span>
-    </div>
+    <!-- Stofudregner side -->
+    <section id="stofSide" class="space-y-6 hidden">
+      <div class="text-center space-y-4">
+        <h1 class="text-4xl font-extrabold tracking-tight">⚖️ Stofudregner</h1>
+        <p class="text-gray-400">Indtast antal gram for hvert stof og se den samlede værdi.</p>
+
+        <div class="text-sm text-gray-400 max-w-lg mx-auto bg-white/10 rounded-md p-4">
+          <strong>Bemærk:</strong> Priserne kan variere efter nogle forhold.<br />
+          <em>Mindstepris</em>: Ikke bandemedlem og ingen politi på arbejde.<br />
+          <em>Maksimal pris</em>: Bandemedlem, sælger i venlig zone, og mange politi på arbejde.
+        </div>
+
+        <label for="prisniveau" class="block font-semibold mt-4 mb-1">Prisniveau (situation):</label>
+        <input id="prisniveau" type="range" min="0" max="1" step="0.01" value="0" class="w-full" />
+        <div class="flex justify-between text-xs text-gray-500 px-1">
+          <span>Mindstepris</span>
+          <span>Maksimal pris</span>
+        </div>
+      </div>
+
+      <div id="stofferContainer" class="grid gap-4 sm:grid-cols-2"></div>
+      <div class="flex justify-between items-center pt-6 border-t border-white/10">
+        <span class="text-xl">💰 <strong>Total Stofværdi:</strong></span>
+        <span id="stofTotalVis" class="text-2xl font-mono font-semibold text-emerald-400">0 DKK</span>
+      </div>
+    </section>
+
   </div>
 
   <script>
+    // Varer med faste priser
     const varer = {
       "Halskæde": 1000,
       "Diamant Halskæde": 3250,
@@ -52,50 +97,144 @@
       "Kranium Kunst": 2000
     };
 
-    const container = document.getElementById("varerContainer");
+    // Stoffer med min og max priser per gram
+    const stoffer = {
+      "Hash": { min: 150, max: 250 },
+      "Kokain": { min: 800, max: 1000 },
+      "Amfetamin": { min: 400, max: 600 },
+      "Ecstasy": { min: 300, max: 450 },
+      "Heroin": { min: 900, max: 1200 },
+      "Oxy Pille": { min: 2000, max: 3600 },
+    };
 
-    for (const [navn, pris] of Object.entries(varer)) {
-      const card = document.createElement("div");
-      card.className = "bg-white/5 hover:bg-white/10 transition-all duration-200 p-4 rounded-xl flex justify-between items-center";
+    // Funktion til at bygge udregner for varer (fast pris)
+    function lavUdregner(containerId, data, priceSuffix, totalVisId) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = '';
 
-      const info = document.createElement("div");
-      info.innerHTML = `
-        <div class="font-medium">${navn}</div>
-        <div class="text-sm text-gray-400">${pris.toLocaleString()} DKK/stk</div>
-      `;
+      for (const [navn, pris] of Object.entries(data)) {
+        const card = document.createElement("div");
+        card.className = "bg-white/5 hover:bg-white/10 transition-all duration-200 p-4 rounded-xl flex justify-between items-center";
 
-      const input = document.createElement("input");
-      input.type = "number";
-      input.min = "0";
-      input.value = "0";
-      input.dataset.price = pris;
-      input.className = "w-20 text-right bg-white/10 text-white rounded-md px-3 py-1 focus:outline-none focus:ring-2 focus:ring-emerald-400 transition font-mono";
+        const info = document.createElement("div");
+        info.innerHTML = `
+          <div class="font-medium">${navn}</div>
+          <div class="text-sm text-gray-400">${pris.toLocaleString()} DKK/${priceSuffix}</div>
+        `;
 
-      // input events
-      input.addEventListener("input", beregn);
-      input.addEventListener("focus", () => {
-        if (input.value === "0") input.value = "";
-      });
-      input.addEventListener("blur", () => {
-        if (input.value === "") input.value = "0";
-        beregn();
-      });
+        const input = document.createElement("input");
+        input.type = "number";
+        input.min = "0";
+        input.value = "0";
+        input.dataset.price = pris;
+        input.className = "w-20 text-right bg-white/10 text-white rounded-md px-3 py-1 focus:outline-none focus:ring-2 focus:ring-emerald-400 transition font-mono";
 
-      card.appendChild(info);
-      card.appendChild(input);
-      container.appendChild(card);
+        input.addEventListener("input", () => beregn(containerId, totalVisId));
+        input.addEventListener("focus", () => { if (input.value === "0") input.value = ""; });
+        input.addEventListener("blur", () => { if (input.value === "") input.value = "0"; beregn(containerId, totalVisId); });
+
+        card.appendChild(info);
+        card.appendChild(input);
+        container.appendChild(card);
+      }
+
+      beregn(containerId, totalVisId);
     }
 
-    function beregn() {
-      const inputs = document.querySelectorAll("input");
+    // Funktion til at bygge udregner for stoffer (dynamiske priser)
+    function lavStofUdregner(containerId, data, totalVisId) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = '';
+
+      for (const [navn, priser] of Object.entries(data)) {
+        const card = document.createElement("div");
+        card.className = "bg-white/5 hover:bg-white/10 transition-all duration-200 p-4 rounded-xl flex justify-between items-center";
+
+        const info = document.createElement("div");
+        info.innerHTML = `
+          <div class="font-medium">${navn}</div>
+          <div class="text-sm text-gray-400">Pris: <span class="minPris">${priser.min.toLocaleString()}</span> - <span class="maxPris">${priser.max.toLocaleString()}</span> DKK/gram</div>
+        `;
+
+        const input = document.createElement("input");
+        input.type = "number";
+        input.min = "0";
+        input.value = "0";
+        input.dataset.min = priser.min;
+        input.dataset.max = priser.max;
+        input.className = "w-20 text-right bg-white/10 text-white rounded-md px-3 py-1 focus:outline-none focus:ring-2 focus:ring-emerald-400 transition font-mono";
+
+        input.addEventListener("input", () => beregnStof(containerId, totalVisId));
+        input.addEventListener("focus", () => { if (input.value === "0") input.value = ""; });
+        input.addEventListener("blur", () => { if (input.value === "") input.value = "0"; beregnStof(containerId, totalVisId); });
+
+        card.appendChild(info);
+        card.appendChild(input);
+        container.appendChild(card);
+      }
+
+      beregnStof(containerId, totalVisId);
+    }
+
+    // Beregn total for varer (fast pris)
+    function beregn(containerId, totalVisId) {
+      const container = document.getElementById(containerId);
+      const inputs = container.querySelectorAll("input");
       let total = 0;
       inputs.forEach(input => {
         const pris = parseInt(input.dataset.price);
         const antal = parseInt(input.value) || 0;
         total += pris * antal;
       });
-      document.getElementById("totalVis").textContent = `${total.toLocaleString()} DKK`;
+      document.getElementById(totalVisId).textContent = `${total.toLocaleString()} DKK`;
     }
+
+    // Beregn total for stoffer (dynamiske priser afhængig af prisniveau)
+    function beregnStof(containerId, totalVisId) {
+      const niveau = parseFloat(document.getElementById("prisniveau").value);
+      const container = document.getElementById(containerId);
+      const inputs = container.querySelectorAll("input");
+      let total = 0;
+      inputs.forEach(input => {
+        const minPris = parseFloat(input.dataset.min);
+        const maxPris = parseFloat(input.dataset.max);
+        const pris = minPris + (maxPris - minPris) * niveau;
+        const gram = parseFloat(input.value) || 0;
+        total += pris * gram;
+      });
+      document.getElementById(totalVisId).textContent = `${Math.round(total).toLocaleString()} DKK`;
+    }
+
+    // Tab-skift funktion
+    const tabVaerdiBtn = document.getElementById("tabVaerdi");
+    const tabStofBtn = document.getElementById("tabStof");
+    const vaerdiSide = document.getElementById("vaerdiSide");
+    const stofSide = document.getElementById("stofSide");
+
+    tabVaerdiBtn.addEventListener("click", () => {
+      tabVaerdiBtn.classList.add("active");
+      tabStofBtn.classList.remove("active");
+      vaerdiSide.classList.remove("hidden");
+      stofSide.classList.add("hidden");
+    });
+
+    tabStofBtn.addEventListener("click", () => {
+      tabStofBtn.classList.add("active");
+      tabVaerdiBtn.classList.remove("active");
+      stofSide.classList.remove("hidden");
+      vaerdiSide.classList.add("hidden");
+    });
+
+    // Når prisniveau ændres, opdater total
+    document.getElementById("prisniveau").addEventListener("input", () => {
+      beregnStof("stofferContainer", "stofTotalVis");
+    });
+
+    // Init begge udregnere på load
+    window.addEventListener("DOMContentLoaded", () => {
+      lavUdregner("varerContainer", varer, "stk", "totalVis");
+      lavStofUdregner("stofferContainer", stoffer, "stofTotalVis");
+    });
   </script>
 
 </body>
